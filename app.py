@@ -42,7 +42,12 @@ elif option == 'Remove':
 elif option == 'Recommend':
     df = st.session_state['tasks'].copy()
     if st.button("Recommend 👍"):
-        recommend_task = df.sort_values(by='Priority').head()[
+        df['priority_num'] = df['Priority'].map({
+            'High': 0,
+            'Medium': 1,
+            'Low': 2
+        })
+        recommend_task = df.sort_values(by='priority_num').head()[
             'Task'].to_numpy()[0]
         st.write(f"#### Recommended task: :blue[{recommend_task}]")
     show_table()
